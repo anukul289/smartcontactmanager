@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Contact {
@@ -13,10 +16,20 @@ public class Contact {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int cId;
+	
+	@NotBlank(message="Name is required !!")
+	@Size(min=2,max=20,message="Length should be between 2-20 characters !!")
 	private String name;
+	
 	private String secondName;
 	private String work;
+	
+	@NotBlank(message="Email is required !!")
+	@Pattern(regexp = "[a-z0-9]+@[a-z]+.[a-z]{2,3}",message="Email should be in proper format")
 	private String email;
+	
+	@NotBlank(message="Phone is required !!")
+	@Size(min=10,max=10,message="Length should be 10 digits")
 	private String phone;
 	private String imageUrl;
 	

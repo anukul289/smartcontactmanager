@@ -54,10 +54,11 @@ body{
 
 .sidebar{
 	width:18%;
-	background:white;
+	background: white;
 	height:100%;
 	position:fixed;
 	padding-top: 45px;
+	z-index: 999999999999999999999999999;
 }
 
 .sidebar a{
@@ -66,6 +67,7 @@ body{
 	padding:10px 25px;
 	text-decoration: none;
 	color: gray;
+	
 }
 
 .sidebar a:hover{
@@ -89,4 +91,8 @@ body{
 	right:35px;
 	font-size:36px;
 	cursor:pointer;
+}
+
+.card{
+	background: rgba(255,255,255,.8);
 }
