@@ -6,16 +6,11 @@
 </head>
 <body>
 	<section>
-		
 		<div class="card me-3 ms-3">
 		
 			<div class="card-body">
-			
-				<!-- Alert -->
 	
-				
-			
-				<h1 class="text-center">Add Contact</h1>
+				<h1 class="text-center">Update Contact</h1>
 				
 				<div class="container-fluid mt-1">
 				
@@ -26,10 +21,13 @@
 							<form action="#" 
 								  th:object="${contact}"
 								  enctype="multipart/form-data"
-								  th:action="@{/user/process-contact}"
+								  th:action="@{/user/process-update}"
 								  class="mt-2"
 								  method="post"
 								  novalidate>
+								  
+								  
+								  <input type="hidden" th:value="${contact.cId}" name="cId" />
 							
 								<!-- First Name -->
 								
@@ -47,7 +45,7 @@
 									
 									<input type="text" id="firstName" name="name" placeholder="Name" class="form-control" 
 									th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}"
-									th:value="${#fields.hasErrors('*')} ? ${contact.name}"
+									th:value="${contact.name}"
 									required/>
 									<div class="invalid-feedback" th:each="e : ${#fields.errors('name')}" th:text="${e}"></div>
 								
@@ -67,7 +65,7 @@
 									</div>
 									
 									<input type="text" id="secondName" name="secondName" placeholder="Nick Name" class="form-control"
-									th:value="${#fields.hasErrors('*')} ? ${contact.secondName}"
+									th:value="${contact.secondName}"
 									required/>
 								
 								</div>
@@ -87,7 +85,7 @@
 									
 									<input type="number" id="phone" name="phone" placeholder="Phone Number" class="form-control" 
 									th:classappend="${#fields.hasErrors('phone') ? 'is-invalid' : ''}"
-									th:value="${#fields.hasErrors('*')} ? ${contact.phone}"
+									th:value="${contact.phone}"
 									required/>
 									<div class="invalid-feedback" th:each="e : ${#fields.errors('phone')}" th:text="${e}"></div>
 								</div>
@@ -107,7 +105,7 @@
 									
 									<input type="email" id="email" name="email" placeholder="Email" class="form-control" 
 									th:classappend="${#fields.hasErrors('email') ? 'is-invalid' : ''}"
-									th:value="${#fields.hasErrors('*')} ? ${contact.email}"
+									th:value="${contact.email}"
 									required/>
 									<div class="invalid-feedback" th:each="e : ${#fields.errors('email')}" th:text="${e}"></div>
 								</div>
@@ -126,7 +124,7 @@
 									</div>
 									
 									<input type="text" id="work" name="work" placeholder="Work" class="form-control"
-									th:value="${#fields.hasErrors('*')} ? ${contact.work}"
+									th:value="${contact.work}"
 									required/>
 								
 								</div>
@@ -135,21 +133,28 @@
 								<!-- Contact Description -->
 								<div class="form-group mt-3">
 								
-									<textarea name="description" id="mytextarea" class="form-control" rows="6" placeholder="Description" th:text="${#fields.hasErrors('*')} ? ${contact.description}"></textarea>
+									<textarea name="description" id="mytextarea" class="form-control" rows="6" placeholder="Description" th:text="${contact.description}"></textarea>
 									
 								</div>
 								
 								
 								<!-- Contact Image field -->
+								<div class="container text-center">
+								
+									<img style="width:250px;height:250px;" class="img-fluid my_profile_picture" src="" th:src="@{'/img/'+${contact.imageUrl}}" alt="" />
+								
+								</div>
+								
+								
 								<div class="custom-file mt-3 ">
 									
-									<input type="file" class="form-control" name="profileImage" />
+									<input type="file" class="form-control" name="profileImage"/>
 								
 								</div>
 								
 								<div class="container text-center mt-3">
 								
-									<button class="btn bg-primary text-white">Save Contact</button>
+									<button class="btn bg-primary text-white">Save</button>
 								
 								</div>
 								

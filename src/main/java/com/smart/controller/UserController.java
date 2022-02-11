@@ -6,8 +6,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,15 +96,24 @@ public class UserController {
 			//processing and uploading file
 			if(file.isEmpty())
 			{
+				contact.setImageUrl("contact.png");
 				System.out.println("File is empty");
 			}
 			else
 			{
 				//upload file to folder and update name to imageUrl in contact
-				contact.setImageUrl(file.getOriginalFilename());
+				
 				File saveFile=new ClassPathResource("static/img").getFile();
-				Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+file.getOriginalFilename()+"_"+user.getId()+"_"+contact.getEmail());
+				
+				String originalFileName=file.getOriginalFilename();
+				String fileName = originalFileName.substring(0,originalFileName.indexOf(".")) + "_" +user.getId()+ "_"+contact.getEmail();
+				String fileExtension = originalFileName.substring(originalFileName.indexOf(".")+1);
+						
+				Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+fileName+"."+fileExtension);
 				Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
+				
+				contact.setImageUrl(fileName+"."+fileExtension);
+				
 				System.out.println("Image uploaded");
 			}
 			
@@ -139,7 +150,7 @@ public class UserController {
 		String userName = principal.getName();
 		User user = this.userRepository.getUserByUserName(userName);
 		
-		Pageable pageable = PageRequest.of(page, 5);
+		Pageable pageable = PageRequest.of(page, 8);
 		
 		Page<Contact> contacts = this.contactRepository.findContactsByUser(user.getId(),pageable);
 		
@@ -149,4 +160,134 @@ public class UserController {
 		
 		return "normal/show_contacts";
 	}
+	
+	
+	//showing particular contact detail
+	@GetMapping("/contact/{cId}")
+	public String showContactDetail(@PathVariable("cId") Integer cId,Model m,Principal principal,HttpSession session)
+	{
+		
+		
+		try {
+			
+			Optional<Contact> contactOptional = this.contactRepository.findById(cId);
+			Contact contact = contactOptional.get();
+			
+			String userName = principal.getName();
+			User user = this.userRepository.getUserByUserName(userName);
+			if(user.getId()==contact.getUser().getId())
+			{
+				m.addAttribute("contact", contact);
+			}
+			return "normal/contact_detail";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:/user/show-contacts/0";
+		}
+		
+	}
+	
+	
+	//delete contact handler
+	@GetMapping("/delete/{cId}")
+	@Transactional
+	public String deleteContact(@PathVariable("cId") Integer cId,Model m,Principal principal,HttpSession session)
+	{
+		
+		Contact contact = this.contactRepository.findById(cId).get();
+		User user = this.userRepository.getUserByUserName(principal.getName());
+
+		try {
+			//check if user is trying to delete its own contact or not
+			if(user.getId()==contact.getUser().getId())
+			{
+				//deleting photo from server
+				File deleteFile=new ClassPathResource("static/img").getFile();
+				File file1=new File(deleteFile,contact.getImageUrl());
+				file1.delete();
+				
+				user.getContacts().remove(contact);
+				this.userRepository.save(user);
+				
+				session.setAttribute("message", new Message("Contact deleted successfully...","alert-success"));
+			}
+			
+		} catch (Exception e) {
+			session.setAttribute("message", new Message("Something went wrong !!","alert-danger"));
+			e.printStackTrace();
+		}
+		
+		
+		return "redirect:/user/show-contacts/0";
+	}
+	
+	//open update form handler
+	@PostMapping("/update-contact/{cId}")
+	public String openUpdateForm(@PathVariable("cId") Integer cId,Model m)
+	{
+		m.addAttribute("title","Update Contact");
+		Contact contact = this.contactRepository.findById(cId).get();
+		m.addAttribute("contact", contact);
+		
+		return "normal/update_form";
+	}
+	
+	
+	//process update form handler
+	@PostMapping("/process-update")
+	public String processUpdateForm(@ModelAttribute("contact") Contact contact,@RequestParam("profileImage") MultipartFile file,Model m,HttpSession session,Principal principal)
+	{
+		try {
+			
+			Contact oldContactDetail = this.contactRepository.findById(contact.getcId()).get();
+			User user=this.userRepository.getUserByUserName(principal.getName());
+			contact.setUser(user);
+			
+			if(!file.isEmpty())
+			{
+				//delete old photo from server
+				File deleteFile=new ClassPathResource("static/img").getFile();
+				File file1=new File(deleteFile,oldContactDetail.getImageUrl());
+				file1.delete();
+
+				
+				
+				//update new photo to server and database
+				File saveFile=new ClassPathResource("static/img").getFile();
+				
+				String originalFileName=file.getOriginalFilename();
+				String fileName = originalFileName.substring(0,originalFileName.indexOf(".")) + "_" +user.getId()+ "_"+contact.getEmail();
+				String fileExtension = originalFileName.substring(originalFileName.indexOf(".")+1);
+						
+				Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+fileName+"."+fileExtension);
+				Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
+				contact.setImageUrl(fileName+"."+fileExtension);
+
+			}
+			else
+			{
+				contact.setImageUrl(oldContactDetail.getImageUrl());
+			}
+			this.contactRepository.save(contact);
+			session.setAttribute("message", new Message("Contact updated successfully...","alert-success"));
+
+			
+		}catch (Exception e) {
+			session.setAttribute("message", new Message("Something went wrong !!","alert-danger"));
+			e.printStackTrace();
+		}
+		return "redirect:/user/contact/"+contact.getcId();
+	}
+	
+	
+	//your profile handler
+	@GetMapping("/profile")
+	public String yourProfile(Model m)
+	{
+		m.addAttribute("title","Profile");
+		return "normal/profile";
+	}
+	
+	
 }

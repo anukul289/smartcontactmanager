@@ -96,3 +96,10 @@ body{
 .card{
 	background: rgba(255,255,255,.8);
 }
+
+.my_profile_picture{
+	width:35px;
+	height:35px;
+	border-radius:50%;
+	object-fit:cover;
+}

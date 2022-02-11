@@ -13,13 +13,14 @@
 				
 					<div class="my-card ">
 					
-						<!-- Alert -->
+					<!-- Alert -->
 	
 						<div th:if="${session.message}" th:classappend="${session.message.type}" class="alert alert-dismissible fade show" role="alert">
 							  <p class="text-center" th:text="${session.message.content}"></p>
 							  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 							  <th:block th:text="${#session.removeAttribute('message')}"></th:block>
 						</div>
+						
 					
 						<div class="container text-center">
 							<img style="width:80px" th:src="@{/img/register.png}" alt="" />

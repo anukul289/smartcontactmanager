@@ -6,11 +6,14 @@
 </head>
 <body>
 	<section>
-		<div class="card ms-3 me-3">
+	
+	
+		<div th:if="${contacts.getTotalElements()>0}" class="card ms-3 me-3" style="height:100%">
 		
 			<div class="card-body">
 			
 				<h1 class="text-center">Your Contacts</h1>
+				
 				<table class="table table-striped table-hover">
 				  <thead class="table-success">
 				    <tr>
@@ -24,13 +27,28 @@
 				  <tbody>
 				    
 				    <tr th:each="c : ${contacts}">
-				      <th scope="row" th:text="${'SCMUSER'+c.cId}"></th>
-				      <td th:text="${c.name}"></td>
+				    
+				      <th scope="row" >
+				      	<a href="#" th:href="@{'/user/contact/'+${c.cId}}">
+				      		<span th:text="${'SCMUSER'+c.cId}"></span>
+				      	</a>
+				      </th>
+				      
+				      <td>
+				      	<img th:src="@{'/img/'+${c.imageUrl}}" alt="profile photo"  class="my_profile_picture"/>
+				      	<span th:text="${c.name}"></span>
+				      </td>
+				      
 				      <td th:text="${c.email}"></td>
+				      
 				      <td th:text="${c.phone}"></td>
+				      
 				      <td >
-				      	<i class="fas fa-edit btn btn-outline-success"></i>
-				      	<i class="fas fa-trash-alt btn btn-outline-danger"></i>
+				      	<form th:action="@{'/user/update-contact/'+${c.cId}}" method="post" style="display: inline-block;">
+				      		<button class="btn btn-outline-success" type="submit" ><i class="fas fa-edit "></i></button>
+				      	</form>
+				      	
+				      	<button class="btn btn-outline-danger" th:onclick="|deleteContact(${c.cId})|" style="display: inline-block;"><i class="fas fa-trash-alt"></i></button>
 				      </td>
 				      
 				      
@@ -40,15 +58,15 @@
 				</table>
 				
 				<!-- Pagination -->
-				<nav  aria-label="Page navigation example">
+				<nav th:if="${totalPages>0}" style="top:90%;left:50%" aria-label="Page navigation example">
 				
 				  <ul class="pagination justify-content-center">
 				  
-				    <li th:if="${currentPage != 0}" class="page-item"><a class="page-link" href="#" th:href="@{'/user/show-contacts/'+${currentPage-1}}">&laquo;</a></li>
+				    <li th:if="${currentPage > 0}" class="page-item"><a class="page-link" href="#" th:href="@{'/user/show-contacts/'+${currentPage-1}}">&laquo;</a></li>
 				    
 				    <li th:classappend="${currentPage==i-1} ? 'active' " th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item"><a class="page-link" href="#" th:href="@{'/user/show-contacts/'+${i-1}}"><span th:text="${i}"></span></a></li>
 				    
-				    <li th:if="${currentPage+1 != totalPages}" class="page-item"><a class="page-link" href="#" th:href="@{'/user/show-contacts/'+${currentPage+1}}">&raquo;</a></li>
+				    <li th:if="${currentPage+1 < totalPages}" class="page-item"><a class="page-link" href="#" th:href="@{'/user/show-contacts/'+${currentPage+1}}">&raquo;</a></li>
 				 
 				  </ul>
 				
@@ -56,6 +74,12 @@
 				
 			</div>
 		
+		</div>
+		
+		<div th:unless="${contacts.getTotalElements()>0}">
+			<script>
+				alert("No Contacts found!!");
+			</script>
 		</div>
 	</section>
 	
