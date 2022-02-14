@@ -14,7 +14,24 @@
 			
 				<h1 class="text-center">Your Contacts</h1>
 				
-				<table class="table table-striped table-hover">
+				<!-- search -->
+				
+				<div class="search-container my-3">
+				
+					<input onkeyup="search()" id="search-input" type="text" class="form-control" placeholder="Search your contacts"/>
+				
+				
+						<div class="search-result">
+						
+							
+												
+						</div>
+				
+				</div>
+				
+				<div class="table-responsive">
+				
+				<table class="table table-striped table-hover ">
 				  <thead class="table-success">
 				    <tr>
 				      <th scope="col">#ID</th>
@@ -56,6 +73,7 @@
 				    
 				  </tbody>
 				</table>
+				</div>
 				
 				<!-- Pagination -->
 				<nav th:if="${totalPages>0}" style="top:90%;left:50%" aria-label="Page navigation example">
@@ -81,6 +99,15 @@
 				alert("No Contacts found!!");
 			</script>
 		</div>
+		
+		<script>
+		
+			$(document).ready(() =>{
+				$("#contacts-link").addClass("active");
+			});
+		
+		</script>
+		
 	</section>
 	
 </body>

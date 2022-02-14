@@ -15,7 +15,7 @@
   
   	<!-- NAVBAR -->
 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<nav class="navbar  navbar-expand-lg navbar-dark bg-primary">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">Smart Contact Manager</a>
 			<button class="navbar-toggler" type="button"
@@ -47,7 +47,14 @@
 	
 	<!-- END NAVBAR -->
 	
+
+	<!-- Alert -->
 	
+	<div th:if="${session.message}" th:classappend="${session.message.type}" class="alert alert-dismissible fade show" role="alert">
+		  <p class="text-center" th:text="${session.message.content}"></p>
+		  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		  <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+	</div>	
 
 	<div th:replace="${content}">
     

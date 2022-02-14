@@ -27,6 +27,11 @@
                             	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                             
+                            <div th:if="${param.change}" class="alert alert-success alert-dismissible fade show">
+                            	<p th:text="${param.change}"></p>
+                            	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            
                             <div class="form-group">
                                 <label for="username" >Username<span style="color:#ff0000">*</span></label><br>
                                 <input type="text" name="username" id="username" class="form-control">
@@ -37,15 +42,26 @@
                             </div>
                             <div class="form-group">
                                 <label for="remember-me" ><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label>
-                            	<div style="float:right;">
-                            		<a href="/signup" class="text-primary ">Register here</a>
-                            	</div>
+                            	
                             </div>
-                            <br>
-                            <div class="form-group text-center">
-                            	<input type="submit" name="submit" class="btn bg-primary text-white btn-md" value="Submit">
+
+                            <div class="form-group text-center mb-3">
+                            	<input type="submit" name="submit" class="btn bg-primary text-white btn-md" value="Login">
                             	<button type="reset" class="btn btn-warning  text-white">Reset</button>
                             </div>
+                            
+                            <div class="container text-center mb-5">
+                            	
+                            	<div style="float:left;">
+                            		<a href="#" th:href="@{/forgot}">Forgot Password ?</a>
+                            	</div>
+                            	
+                            	<div style="float:right;">
+                            		<a th:href="@{/signup}" class="text-primary ">Register here</a>
+                            	</div>
+                            
+                            </div>
+                            
                         </form>
                     </div>
                 </div>

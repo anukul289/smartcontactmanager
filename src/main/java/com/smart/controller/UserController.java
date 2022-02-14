@@ -17,6 +17,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,6 +38,9 @@ import com.smart.helper.Message;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -150,7 +154,7 @@ public class UserController {
 		String userName = principal.getName();
 		User user = this.userRepository.getUserByUserName(userName);
 		
-		Pageable pageable = PageRequest.of(page, 8);
+		Pageable pageable = PageRequest.of(page, 5);
 		
 		Page<Contact> contacts = this.contactRepository.findContactsByUser(user.getId(),pageable);
 		
@@ -168,6 +172,7 @@ public class UserController {
 	{
 		
 		
+		
 		try {
 			
 			Optional<Contact> contactOptional = this.contactRepository.findById(cId);
@@ -175,6 +180,7 @@ public class UserController {
 			
 			String userName = principal.getName();
 			User user = this.userRepository.getUserByUserName(userName);
+			m.addAttribute("title", user.getName());
 			if(user.getId()==contact.getUser().getId())
 			{
 				m.addAttribute("contact", contact);
@@ -287,6 +293,68 @@ public class UserController {
 	{
 		m.addAttribute("title","Profile");
 		return "normal/profile";
+	}
+	
+	//open settings handler
+	@GetMapping("/settings")
+	public String openSettings(Model m)
+	{
+		m.addAttribute("title","Settings");
+		return "normal/settings";
+	}
+	
+	
+	//change password handler
+	@PostMapping("/change-password")
+	public String changePassword(@RequestParam("oldPassword") String oldPassword,@RequestParam("newPassword") String newPassword,@RequestParam("confirmPassword") String confirmPassword,Principal principal,HttpSession session)
+	{
+		
+		try {
+			User user=this.userRepository.getUserByUserName(principal.getName());
+			
+			//old password is equal to currentPassword or not
+			if(this.bCryptPasswordEncoder.matches(oldPassword, user.getPassword()))
+			{
+				//new password and confirm password match or not
+				if(newPassword.equals(confirmPassword))
+				{
+					//old password and new password should not be same
+					if(oldPassword.equals(newPassword))
+					{
+						//throw error
+						session.setAttribute("message", new Message("Old password and new password can't be same !!","alert-danger"));
+						return "redirect:/user/settings";
+					}
+					else
+					{
+						//change the password
+						user.setPassword(this.bCryptPasswordEncoder.encode(newPassword));
+						this.userRepository.save(user);
+						session.setAttribute("message", new Message("Password changed successfully...","alert-success"));
+					}
+				}
+				else
+				{
+					//throw error
+					session.setAttribute("message", new Message("New password and confirm password don't match !!","alert-danger"));
+					return "redirect:/user/settings";
+				}
+			}
+			else
+			{
+				//throw error
+				session.setAttribute("message", new Message("Please enter correct details in old password field","alert-danger"));
+				return "redirect:/user/settings";
+			}
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			session.setAttribute("message", new Message("Something went wrong !!","alert-danger"));
+			return "redirect:/user/settings";
+		}
+		
+		return "redirect:/user/index";
 	}
 	
 	

@@ -16,6 +16,8 @@
 					<img th:src="@{'/img/user_logo.png'}" style="height:200px;width:200px;" alt="profile photo"  class="my_profile_picture"/>
 					
 					<h1  th:text="${user.name}"></h1>
+					
+					<div class="table-responsive">
 				
 					<table class="table">
 					  <thead>
@@ -48,12 +50,21 @@
 					    
 					  </tbody>
 				</table>
+				</div>
 				
 				</div>
 			
 			</div>
 		
 		</div>
+		
+		<script>
+		
+			$(document).ready(() =>{
+				$("#profile-link").addClass("active");
+			});
+		
+		</script>
 		
 	</section>
 	

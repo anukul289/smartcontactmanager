@@ -11,6 +11,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.0-11/css/all.css" integrity="sha512-xO/VZFNBvip9IT+BD6Nq/pHdBvKeFcwygKqARlegjQ+5A68KsMSYrPbGP1oYow5ec9Tqq8peJXcn5J1bD4O00w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title th:text="${title}">Base html</title>
      <script th:src="@{/js/script.js}"></script>
+     
+     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+     
+     
   </head>
   <body>
   
@@ -63,11 +67,11 @@
 	<div class="sidebar mt-2">
 		<span onclick="toggleSidebar()" class="crossBtn">&times;</span>
 	
-		<a href="#" th:href="@{/user/index}" class="item"><i class="fas fa-home"></i> Home</a>
-		<a href="#" th:href="@{/user/show-contacts/0}" class="item"><i class="fas fa-id-card-alt"></i> View Contacts</a>
-		<a href="#" th:href="@{/user/add-contact}" class="item"><i class="fas fa-pencil-alt"></i> Add Contact</a>
-		<a href="#" th:href="@{/user/profile}" class="item"><i class="fas fa-user-circle"></i> Your Profile</a>
-		<a href="#" class="item"><i class="fas fa-cogs"></i> Settings</a>
+		<a id="home-link" href="#" th:href="@{/user/index}" class="item "><i class="fas fa-home"></i> Home</a>
+		<a id="contacts-link" href="#" th:href="@{/user/show-contacts/0}" class="item "><i class="fas fa-id-card-alt"></i> View Contacts</a>
+		<a id="add-link" href="#" th:href="@{/user/add-contact}" class="item "><i class="fas fa-pencil-alt"></i> Add Contact</a>
+		<a id="profile-link" href="#" th:href="@{/user/profile}" class="item "><i class="fas fa-user-circle"></i> Your Profile</a>
+		<a id="settings-link" href="#" th:href="@{/user/settings}" class="item "><i class="fas fa-cogs"></i> Settings</a>
 		<a href="#" th:href="@{/logout}" class="item"><i class="fas fa-sign-out-alt"></i> Logout</a>
 		<div class="divider"></div>
 	
