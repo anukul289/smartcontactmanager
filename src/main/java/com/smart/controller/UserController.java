@@ -116,7 +116,7 @@ public class UserController {
 				String fileName = originalFileName.substring(0,originalFileName.indexOf(".")) + "_" +user.getId()+ "_"+contact.getEmail();
 				String fileExtension = originalFileName.substring(originalFileName.indexOf(".")+1);
 						
-				String fileLocation=new File("src\\main\\resources\\static\\img").getAbsolutePath()+"\\"+fileName+"."+fileExtension;
+				String fileLocation=new File("target\\classes\\static\\img").getAbsolutePath()+"\\"+fileName+"."+fileExtension;
 				
 				FileOutputStream fout = new FileOutputStream(fileLocation);
 			    fout.write(file.getBytes());
