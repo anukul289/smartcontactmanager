@@ -1,6 +1,7 @@
 package com.smart.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -107,16 +108,22 @@ public class UserController {
 			{
 				//upload file to folder and update name to imageUrl in contact
 				
-				String saveFile=new ClassPathResource("static/img").getURL().toString();
-				String newSaveFile = saveFile.substring(6).replace("/","\\");
-				System.out.println("SAVE FILE "+newSaveFile);
+				//InputStream inputStream=new ClassPathResource("static/img").getInputStream();
+				
+				//System.out.println("SAVE FILE "+inputStream.transferTo(null));
 				
 				String originalFileName=file.getOriginalFilename();
 				String fileName = originalFileName.substring(0,originalFileName.indexOf(".")) + "_" +user.getId()+ "_"+contact.getEmail();
 				String fileExtension = originalFileName.substring(originalFileName.indexOf(".")+1);
 						
-				Path path = Paths.get(newSaveFile+File.separator+fileName+"."+fileExtension);
-				Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
+				String fileLocation=new File("target\\classes\\static\\img").getAbsolutePath()+"\\"+fileName+"."+fileExtension;
+				
+				FileOutputStream fout = new FileOutputStream(fileLocation);
+			    fout.write(file.getBytes());
+			    fout.close();
+				
+				//Path path = Paths.get(inputStream+File.separator+fileName+"."+fileExtension);
+				//Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
 				
 				contact.setImageUrl(fileName+"."+fileExtension);
 				
