@@ -28,7 +28,7 @@ public class User {
 	
 	@Column(unique = true)
 	@NotBlank(message="Email is required !!")
-	@Pattern(regexp = "[a-z0-9]+@[a-z]+.[a-z]{2,3}",message="Email should be in proper format")
+	@Pattern(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",message="Email should be in proper format")
 	private String email;
 	
 	@NotBlank(message="Password is required !!")

@@ -49,7 +49,6 @@ public class EmailService {
 		
 		//get the system properties
 		Properties properties = System.getProperties();
-		System.out.println("PROPERTIES "+ properties);
 		
 		//setting important information to properties object
 		

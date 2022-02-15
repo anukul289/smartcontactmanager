@@ -13,13 +13,7 @@
 				
 					<div class="my-card ">
 					
-					<!-- Alert -->
-	
-						<div th:if="${session.message}" th:classappend="${session.message.type}" class="alert alert-dismissible fade show" role="alert">
-							  <p class="text-center" th:text="${session.message.content}"></p>
-							  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							  <th:block th:text="${#session.removeAttribute('message')}"></th:block>
-						</div>
+					
 						
 					
 						<div class="container text-center">
@@ -28,7 +22,7 @@
 						
 						<h1 class="text-center">Register Here</h1>
 						
-						<form novalidate th:action="@{/do_register}" method="post" th:object="${user}">
+						<form novalidate th:action="@{/send-otp-register}" method="post" th:object="${user}">
 							
 							<!-- name field -->
 							
@@ -101,7 +95,7 @@
 								name="agreement"
 								class="form-check-input"
 								id="agreement"
-								/>
+								required/>
 								
 								<label for="agreement">Accept terms and conditions<span style="color:#ff0000">*</span></label>
 							
