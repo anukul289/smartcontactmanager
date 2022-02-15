@@ -1,7 +1,7 @@
 package com.smart.config;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,7 +23,7 @@ public class CustomUserDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(user.getRole());
-		return List.of(simpleGrantedAuthority);
+		return Arrays.asList(simpleGrantedAuthority);
 	}
 
 	@Override
