@@ -52,7 +52,7 @@
 				      </th>
 				      
 				      <td>
-				      	<img th:src="@{'/img/'+${c.imageUrl}}" alt="profile photo"  class="my_profile_picture"/>
+				      	<img src="..static/img/${c.imageUrl}" th:src="@{'img/'+${c.imageUrl}}" alt="profile photo"  class="my_profile_picture"/>
 				      	<span th:text="${c.name}"></span>
 				      </td>
 				      
