@@ -43,9 +43,7 @@ public class EmailService {
 		 password = props.getProperty("spring.mail.password");
 		 
 	    String from=username;
-		
-		System.out.println(username);
-		System.out.println(password);
+
 		
 		String host="smtp.gmail.com";
 		
