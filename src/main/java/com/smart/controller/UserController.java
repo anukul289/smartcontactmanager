@@ -108,7 +108,7 @@ public class UserController {
 			{
 				//upload file to folder and update name to imageUrl in contact
 				
-				//InputStream inputStream=new ClassPathResource("static/img").getInputStream();
+				//File saveFile=new ClassPathResource("static/img").getFile();
 				
 				//System.out.println("SAVE FILE "+inputStream.transferTo(null));
 				
@@ -116,13 +116,18 @@ public class UserController {
 				String fileName = originalFileName.substring(0,originalFileName.indexOf(".")) + "_" +user.getId()+ "_"+contact.getEmail();
 				String fileExtension = originalFileName.substring(originalFileName.indexOf(".")+1);
 						
-				String fileLocation=new File("target\\classes\\static\\img").getAbsolutePath()+"\\"+fileName+"."+fileExtension;
 				
-				FileOutputStream fout = new FileOutputStream(fileLocation);
-			    fout.write(file.getBytes());
-			    fout.close();
+				 String fileLocation=new
+				 File("src\\main\\resources\\static\\img").getAbsolutePath()+"\\"+fileName+"."+fileExtension;
+				 FileOutputStream fout = new FileOutputStream(fileLocation);
+				 fout.write(file.getBytes()); 
+				 fout.close();
+				 
 				
-				//Path path = Paths.get(inputStream+File.separator+fileName+"."+fileExtension);
+				//Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+fileName+"."+fileExtension);
+				
+				//System.out.println("PATH "+path);
+				
 				//Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
 				
 				contact.setImageUrl(fileName+"."+fileExtension);
