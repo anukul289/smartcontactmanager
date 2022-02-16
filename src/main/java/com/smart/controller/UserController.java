@@ -124,9 +124,11 @@ public class UserController {
 				
 				Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+fileName+"."+fileExtension);
 				
-				//System.out.println("PATH "+path);
+				System.out.println("PATH "+path);
 				
 				Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
+				
+				
 				
 				contact.setImageUrl(fileName+"."+fileExtension);
 				

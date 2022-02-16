@@ -16,7 +16,7 @@ public class SmartcontactmanagerApplication implements WebMvcConfigurer{
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         // Register resource handler for images
-        registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/static/","classpath:/img/")
+        registry.addResourceHandler("/img/**").addResourceLocations("classpath:/static/img/")
                 .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
     }
 
