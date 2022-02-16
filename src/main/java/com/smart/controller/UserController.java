@@ -128,7 +128,7 @@ public class UserController {
 				 
 				String url=new ClassPathResource("static/img").getURL().toString().substring(10);
 				System.out.println("URL "+url);
-				Path path = Paths.get(url+File.separator+fileName+"."+fileExtension).toAbsolutePath();
+				Path path = Paths.get(url+File.separator+fileName+"."+fileExtension);
 //				
 //				System.out.println("PATH "+path);
 //				
@@ -164,7 +164,7 @@ public class UserController {
 			e.printStackTrace();
 			m.addAttribute("contact", contact);
 			
-			session.setAttribute("message", new Message("Something went wrong !! "+e.getMessage(),"alert-danger"));
+			session.setAttribute("message", new Message("Something went wrong !! "+e.toString(),"alert-danger"));
 			m.addAttribute("session_msg", session.getAttribute("message"));
 			
 			return "redirect:/user/add-contact";
