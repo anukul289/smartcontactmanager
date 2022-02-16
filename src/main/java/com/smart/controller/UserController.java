@@ -140,7 +140,7 @@ public class UserController {
 				System.out.println("PATH "+path);
 				
 				
-				Path path1 = Paths.get(path+File.separator+fileName+"."+fileExtension);
+				Path path1 = Paths.get(path+File.separator+fileName+"."+fileExtension).toAbsolutePath();
 				
 				System.out.println("PATH 1 "+path1);
 						
