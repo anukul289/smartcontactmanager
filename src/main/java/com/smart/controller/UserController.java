@@ -128,7 +128,7 @@ public class UserController {
 				 
 				String url=new ClassPathResource("static/img").getURL().toString().substring(10);
 				System.out.println("URL "+url);
-				Path path = Paths.get(url+File.separator+fileName+"."+fileExtension);
+				Path path = Paths.get(url+File.separator+fileName+"."+fileExtension).toAbsolutePath();
 //				
 //				System.out.println("PATH "+path);
 //				
