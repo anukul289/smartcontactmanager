@@ -134,7 +134,7 @@ public class UserController {
 				
 				Resource resource = new ClassPathResource("static/img");
 				
-				String path = this.getClass().getClassLoader().getResource("static/img").toExternalForm().replaceFirst("jar:file:", "classpath:");
+				String path = this.getClass().getClassLoader().getResource("static/img").toExternalForm().replaceFirst("jar:", "");
 				
 				System.out.println("RESOURCE "+resource);
 				System.out.println("PATH "+path);
@@ -142,7 +142,7 @@ public class UserController {
 				
 				Path path1 = Paths.get(path+File.separator+fileName+"."+fileExtension);
 				
-				System.out.println("PATH "+path1);
+				System.out.println("PATH 1 "+path1);
 						
 				//IOUtils.copy(file.getInputStream(),outputStream);
 				
