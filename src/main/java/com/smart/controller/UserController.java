@@ -1,7 +1,6 @@
 package com.smart.controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -113,7 +112,7 @@ public class UserController {
 			{
 				//upload file to folder and update name to imageUrl in contact
 				
-				//File saveFile=new ClassPathResource("static/img").getFile();
+				//InputStream inputStream=new ClassPathResource("static/img").getInputStream();
 				
 				//System.out.println("SAVE FILE "+inputStream.transferTo(null));
 				
@@ -122,23 +121,25 @@ public class UserController {
 				String fileExtension = originalFileName.substring(originalFileName.indexOf(".")+1);
 						
 				
-				 String fileLocation=new File("app\\target\\smartcontactmanager-0.0.1-SNAPSHOT.jar!\\BOOT-INF\\classes!\\static\\img").getAbsolutePath()+"\\"+fileName+"."+fileExtension;
-				 FileOutputStream fout = new FileOutputStream(fileLocation);
-				 fout.write(file.getBytes()); 
-				 fout.close();
+//				 String fileLocation=new File("app\\target\\smartcontactmanager-0.0.1-SNAPSHOT.jar!\\BOOT-INF\\classes!\\static\\img").getAbsolutePath()+"\\"+fileName+"."+fileExtension;
+//				 FileOutputStream fout = new FileOutputStream(fileLocation);
+//				 fout.write(file.getBytes()); 
+//				 fout.close();
 				 
-				
-//				Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+fileName+"."+fileExtension);
+				String url=new ClassPathResource("static/img").getURL().toString().substring(10);
+				System.out.println("URL "+url);
+				Path path = Paths.get(url+File.separator+fileName+"."+fileExtension);
 //				
 //				System.out.println("PATH "+path);
 //				
 //				System.out.println("FILE INPUTSTREAM "+file.getInputStream());
 //				
-//				Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
+				Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
 				
 				
 //				Resource resource = resourceLoader.getResource("classpath:/static/img");
 //	            InputStream inputStream = resource.getInputStream();
+
 				
 				
 				
