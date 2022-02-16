@@ -15,6 +15,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -125,19 +126,27 @@ public class UserController {
 				
 				System.out.println("FILE NAME "+fileName);
 				
-				File newFile = new File(new ClassPathResource("static/img").getURI());
-				
-				System.out.println("NEW FILE "+newFile);
+//				File newFile = new File(new ClassPathResource("static/img").getURI());
+//				
+//				System.out.println("NEW FILE "+newFile);
 				
 				//OutputStream outputStream = new FileOutputStream(newFile);
 				
-				Path path = Paths.get(newFile+File.separator+fileName+"."+fileExtension);
+				Resource resource = new ClassPathResource("static/img");
 				
+				String path = this.getClass().getClassLoader().getResource("static/img").toExternalForm();
+				
+				System.out.println("RESOURCE "+resource);
 				System.out.println("PATH "+path);
+				
+				
+				Path path1 = Paths.get(path+File.separator+fileName+"."+fileExtension);
+				
+				System.out.println("PATH "+path1);
 						
 				//IOUtils.copy(file.getInputStream(),outputStream);
 				
-				Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
+				Files.copy(file.getInputStream(),path1,StandardCopyOption.REPLACE_EXISTING);
 
 				contact.setImageUrl(fileName+"."+fileExtension);
 				
