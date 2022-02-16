@@ -134,7 +134,7 @@ public class UserController {
 				
 				Resource resource = new ClassPathResource("static/img");
 				
-				String path = this.getClass().getClassLoader().getResource("static/img").toExternalForm().replaceFirst("jar:", "");
+				String path = this.getClass().getClassLoader().getResource("static/img").toExternalForm();
 				
 				System.out.println("RESOURCE "+resource);
 				System.out.println("PATH "+path);
