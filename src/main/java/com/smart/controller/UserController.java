@@ -1,6 +1,7 @@
 package com.smart.controller;
 
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,9 +14,9 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -132,22 +133,35 @@ public class UserController {
 				
 				//OutputStream outputStream = new FileOutputStream(newFile);
 				
-				Resource resource = new ClassPathResource("static/img");
+//				Resource resource = new ClassPathResource("static/img");
+//				
+//				String path = this.getClass().getClassLoader().getResource("static/img").toExternalForm();
+//				
+//				System.out.println("RESOURCE "+resource);
+//				System.out.println("PATH "+path);
+//				
+//				
+//				Path path1 = Paths.get(path+File.separator+fileName+"."+fileExtension);
+//				
+//				System.out.println("PATH 1 "+path1);
+//						
+//				//IOUtils.copy(file.getInputStream(),outputStream);
+//				
+//				Files.copy(file.getInputStream(),path1,StandardCopyOption.REPLACE_EXISTING);
 				
-				String path = this.getClass().getClassLoader().getResource("static/img").toExternalForm();
+				InputStream inputStream = new ClassPathResource("static/img").getInputStream();
 				
-				System.out.println("RESOURCE "+resource);
-				System.out.println("PATH "+path);
+				File tempFile = File.createTempFile(inputStream.hashCode()+"",".png");
+				System.out.println("TEMP FILE "+tempFile);
 				
+				FileUtils.copyInputStreamToFile(inputStream, tempFile);
 				
-				Path path1 = Paths.get(path+File.separator+fileName+"."+fileExtension).toAbsolutePath();
-				
+				Path path1 = Paths.get(tempFile.getAbsolutePath()+File.separator+fileName+"."+fileExtension);
 				System.out.println("PATH 1 "+path1);
-						
-				//IOUtils.copy(file.getInputStream(),outputStream);
+				
 				
 				Files.copy(file.getInputStream(),path1,StandardCopyOption.REPLACE_EXISTING);
-
+				
 				contact.setImageUrl(fileName+"."+fileExtension);
 				
 				System.out.println("Image uploaded");
