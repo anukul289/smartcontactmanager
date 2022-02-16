@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -112,37 +113,32 @@ public class UserController {
 			{
 				//upload file to folder and update name to imageUrl in contact
 				
-				//InputStream inputStream=new ClassPathResource("static/img").getInputStream();
-				
-				//System.out.println("SAVE FILE "+inputStream.transferTo(null));
-				
 				String originalFileName=file.getOriginalFilename();
-				String fileName = originalFileName.substring(0,originalFileName.indexOf(".")) + "_" +user.getId()+ "_"+contact.getEmail();
+				
+				String timeMillis = String.valueOf(System.currentTimeMillis());
+				LocalDate currDate = LocalDate.now();
+				
+				String currDateTime = currDate+timeMillis;
+				
+				String fileName = originalFileName.substring(0,originalFileName.indexOf(".")) + "_" +user.getId()+currDateTime;
 				String fileExtension = originalFileName.substring(originalFileName.indexOf(".")+1);
+				
+				System.out.println("FILE NAME "+fileName);
+				
+				File newFile = new File(new ClassPathResource("static/img").getURI());
+				
+				System.out.println("NEW FILE "+newFile);
+				
+				//OutputStream outputStream = new FileOutputStream(newFile);
+				
+				Path path = Paths.get(newFile+File.separator+fileName+"."+fileExtension);
+				
+				System.out.println("PATH "+path);
 						
+				//IOUtils.copy(file.getInputStream(),outputStream);
 				
-//				 String fileLocation=new File("app\\target\\smartcontactmanager-0.0.1-SNAPSHOT.jar!\\BOOT-INF\\classes!\\static\\img").getAbsolutePath()+"\\"+fileName+"."+fileExtension;
-//				 FileOutputStream fout = new FileOutputStream(fileLocation);
-//				 fout.write(file.getBytes()); 
-//				 fout.close();
-				 
-				String url=new ClassPathResource("static/img").getURL().toString().substring(10);
-				System.out.println("URL "+url);
-				Path path = Paths.get(url+File.separator+fileName+"."+fileExtension);
-//				
-//				System.out.println("PATH "+path);
-//				
-//				System.out.println("FILE INPUTSTREAM "+file.getInputStream());
-//				
 				Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
-				
-				
-//				Resource resource = resourceLoader.getResource("classpath:/static/img");
-//	            InputStream inputStream = resource.getInputStream();
 
-				
-				
-				
 				contact.setImageUrl(fileName+"."+fileExtension);
 				
 				System.out.println("Image uploaded");
