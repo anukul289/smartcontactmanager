@@ -1,6 +1,7 @@
 package com.smart.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,6 +15,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -47,6 +49,10 @@ public class UserController {
 	
 	@Autowired
 	private ContactRepository contactRepository;
+	
+	@Autowired
+	private ResourceLoader resourceLoader;
+	
 	
 	//method for adding common data to response
 	@ModelAttribute
@@ -107,7 +113,7 @@ public class UserController {
 			{
 				//upload file to folder and update name to imageUrl in contact
 				
-				File saveFile=new ClassPathResource("static/img").getFile();
+				//File saveFile=new ClassPathResource("static/img").getFile();
 				
 				//System.out.println("SAVE FILE "+inputStream.transferTo(null));
 				
@@ -116,17 +122,23 @@ public class UserController {
 				String fileExtension = originalFileName.substring(originalFileName.indexOf(".")+1);
 						
 				
-//				 String fileLocation=new File("src\\main\\resources\\static\\img").getAbsolutePath()+"\\"+fileName+"."+fileExtension;
-//				 FileOutputStream fout = new FileOutputStream(fileLocation);
-//				 fout.write(file.getBytes()); 
-//				 fout.close();
+				 String fileLocation=new File("app\\target\\smartcontactmanager-0.0.1-SNAPSHOT.jar!\\BOOT-INF\\classes!\\static\\img").getAbsolutePath()+"\\"+fileName+"."+fileExtension;
+				 FileOutputStream fout = new FileOutputStream(fileLocation);
+				 fout.write(file.getBytes()); 
+				 fout.close();
 				 
 				
-				Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+fileName+"."+fileExtension);
+//				Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+fileName+"."+fileExtension);
+//				
+//				System.out.println("PATH "+path);
+//				
+//				System.out.println("FILE INPUTSTREAM "+file.getInputStream());
+//				
+//				Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
 				
-				System.out.println("PATH "+path);
 				
-				Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
+//				Resource resource = resourceLoader.getResource("classpath:/static/img");
+//	            InputStream inputStream = resource.getInputStream();
 				
 				
 				
