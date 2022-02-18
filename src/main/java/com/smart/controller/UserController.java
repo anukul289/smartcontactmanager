@@ -1,7 +1,6 @@
 package com.smart.controller;
 
 import java.io.File;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -127,71 +126,14 @@ public class UserController {
 		        String filename=fileName+"."+fileExtension;
 				
 				System.out.println("FILE NAME "+filename);
-				
-//				File newFile = new File(new ClassPathResource("static/img").getURI());
-//				
-//				System.out.println("NEW FILE "+newFile);
-				
-				//OutputStream outputStream = new FileOutputStream(newFile);
-				
-//				Resource resource = new ClassPathResource("static/img");
-//				
-//				String path = this.getClass().getClassLoader().getResource("static/img").toExternalForm();
-//				
-//				System.out.println("RESOURCE "+resource);
-//				System.out.println("PATH "+path);
-//				
-//				
-//				Path path1 = Paths.get(path+File.separator+fileName+"."+fileExtension);
-//				
-//				System.out.println("PATH 1 "+path1);
-//						
-//				//IOUtils.copy(file.getInputStream(),outputStream);
-//				
-//				Files.copy(file.getInputStream(),path1,StandardCopyOption.REPLACE_EXISTING);
-				
-				//InputStream saveFile = new ClassPathResource("static/img").getInputStream();
-				
-				//System.out.println("SAVE FILE "+saveFile.readAllBytes());
-				
-//				String newLine = System.getProperty("line.separator");
-//			    String res;
-//			    try (Stream<String> lines = new BufferedReader(new InputStreamReader(saveFile)).lines()) {
-//			        res = lines.collect(Collectors.joining(newLine));
-//			    }
-//			    
-//			    System.out.println("SAVE FILE "+res);
-				
-//				File tempFile = File.createTempFile(inputStream.hashCode()+"",".png");
-//				System.out.println("TEMP FILE "+tempFile);
-//				
-//				FileUtils.copyInputStreamToFile(inputStream, tempFile);
-//				
-				//Path path1 = Paths.get(saveFile.getAbsolutePath()+File.separator+fileName+"."+fileExtension);
 
-				//Path path1 = Paths.get(saveFile.);
-//				System.out.println("PATH 1 "+path1);
-//				
-//				
-//				Files.copy(file.getInputStream(),path1,StandardCopyOption.REPLACE_EXISTING);
-				
-				
-				
-				URL url = this.getClass().getResource("/static/img/");
-				
-				String path = Paths.get(url.toURI()+filename).toFile().getAbsolutePath();
- 
-		        System.out.println("PATH "+path+" URL "+url);  
+				File saveFile = new ClassPathResource("static/img").getFile();
 
-//		        byte barr[]=file.getBytes();  
-//		          
-//		        BufferedOutputStream bout=new BufferedOutputStream(new FileOutputStream(path+"/"+filename));  
-//		        bout.write(barr);  
-//		        bout.flush();  
-//		        bout.close();  
+				Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+fileName+"."+fileExtension);
 		        
-		        Files.copy(file.getInputStream(),Paths.get(path),StandardCopyOption.REPLACE_EXISTING);
-				contact.setImageUrl(filename);
+		        Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
+				
+		        contact.setImageUrl(filename);
 				
 				System.out.println("Image uploaded");
 			}
