@@ -15,7 +15,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,10 +48,6 @@ public class UserController {
 	
 	@Autowired
 	private ContactRepository contactRepository;
-	
-	@Autowired
-	private ResourceLoader resourceLoader;
-	
 	
 	//method for adding common data to response
 	@ModelAttribute
@@ -89,7 +84,7 @@ public class UserController {
 	
 	//processing add contact
 	@PostMapping("/process-contact")
-	public String processContact(@Valid @ModelAttribute("contact") Contact contact,BindingResult result,@RequestParam("profileImage") MultipartFile file ,Model m, Principal principal,HttpSession session)
+	public String processContact(@Valid @ModelAttribute("contact") Contact contact,BindingResult result,/*@RequestParam("profileImage") MultipartFile file ,*/Model m, Principal principal,HttpSession session)
 	{
 		try {
 			
@@ -104,7 +99,7 @@ public class UserController {
 			User user=this.userRepository.getUserByUserName(name);
 			
 			//processing and uploading file
-			if(file.isEmpty())
+			/*if(file.isEmpty())
 			{
 				contact.setImageUrl("contact.png");
 				System.out.println("File is empty");
@@ -136,7 +131,9 @@ public class UserController {
 		        contact.setImageUrl(filename);
 				
 				System.out.println("Image uploaded");
-			}
+			}*/
+			
+			contact.setImageUrl("contact.png");
 			contact.setUser(user);
 			user.getContacts().add(contact);
 			this.userRepository.save(user);
@@ -225,9 +222,10 @@ public class UserController {
 			if(user.getId()==contact.getUser().getId())
 			{
 				//deleting photo from server
-				File deleteFile=new ClassPathResource("static/img").getFile();
-				File file1=new File(deleteFile,contact.getImageUrl());
-				file1.delete();
+				/*
+				 * File deleteFile=new ClassPathResource("static/img").getFile(); File file1=new
+				 * File(deleteFile,contact.getImageUrl()); file1.delete();
+				 */
 				
 				user.getContacts().remove(contact);
 				this.userRepository.save(user);
@@ -258,7 +256,7 @@ public class UserController {
 	
 	//process update form handler
 	@PostMapping("/process-update")
-	public String processUpdateForm(@ModelAttribute("contact") Contact contact,@RequestParam("profileImage") MultipartFile file,Model m,HttpSession session,Principal principal)
+	public String processUpdateForm(@ModelAttribute("contact") Contact contact,/*@RequestParam("profileImage") MultipartFile file,*/Model m,HttpSession session,Principal principal)
 	{
 		try {
 			
@@ -266,7 +264,7 @@ public class UserController {
 			User user=this.userRepository.getUserByUserName(principal.getName());
 			contact.setUser(user);
 			
-			if(!file.isEmpty())
+			/*if(!file.isEmpty())
 			{
 				//delete old photo from server
 				File deleteFile=new ClassPathResource("static/img").getFile();
@@ -288,9 +286,9 @@ public class UserController {
 
 			}
 			else
-			{
+			{*/
 				contact.setImageUrl(oldContactDetail.getImageUrl());
-			}
+			//}
 			this.contactRepository.save(contact);
 			session.setAttribute("message", new Message("Contact updated successfully...","alert-success"));
 
