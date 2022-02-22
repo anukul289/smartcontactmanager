@@ -5,6 +5,6 @@
  2. Spring MVC
  3. Thymeleaf
  4. Spring JPA
- 5. MySQL 
+ 5. PostgreSQL 
  6. Spring Security
  7. DevTools
